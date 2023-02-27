@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuestos</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js" defer></script>
+    <style>
+        .alarm {
+        color: red;
+        }
+
+        .barato {
+        color: green;
+        }
+
+        .medio {
+        color: blue;
+        }
+
+        .alto {
+        color: orange;
+        }
+
+        .lujoso {
+        color: red;
+        }
+        button  {
+        margin: 0 5px; 
+        }
+
+        input {
+        margin: 0 5px;
+        }
+
+        input[type="number"] {
+        width: 35px;
+        }
+
+        input[type="range"] {
+        width: 300px;
+        }
+
+        input[type="checkbox"] {
+        margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Presupuesto de Viajes</h1>
+    <div id="app">
+        <p>
+            Nombre del Cliente: <input type="text" v-model.lazy="cliente">
+        </p>
+        <div v-if="cliente">
+            <h3>Cliente: {{ cliente }}</h3>
+            <p>
+                Número de días: <input min="1" type="number" v-model="dias"> <input type="range" min="1" max="30" step="1" v-model="dias">
+            </p>
+            <p>
+                Número de personas: <input min="1" type="number" v-model="personas"> <input type="range" min="1" max="30" step="1" v-model="personas">
+            </p>
+            <p>
+                Número de habitaciones: <input min="1" type="number" v-model="habitaciones"> <input type="range" min="1" max="30" step="1" v-model="habitaciones">
+            </p>
+            <p>
+                Tipo de comidas: <select v-model="comidaSeleccionada">
+                    <option v-for="(comida, index) in comidas" :key="index" :value="index">{{ comida.nombre }}</option>
+                </select>
+            </p>
+            <p>
+                Tipo de alojamiento: <select v-model="alojamientoSeleccionada">
+                    <option v-for="(aloj, index) in alojamientos" :key="index" :value="index">{{ aloj.nombre }}</option>
+                </select>
+            </p>
+            <p>
+                Extras:
+                <button @click="marcarTodos">Marcar Todos</button>
+                <button @click="desmarcarTodos">Desmarcar Todos</button>
+            </p>
+            <p>
+                <span v-for="(extra, index) in extras">
+                    <input type="checkbox" v-model="extra.seleccionada">
+                    <label for="">{{ extra.nombre }}</label>
+                </span>
+            </p>
+            <p>
+                Perfiles: 
+                <button @click="pobre">Pobre</button>
+                <button @click="cultural">Cultural</button>
+                <button @click="aventurero">Aventurero</button>
+                <button @click="granLujo">Gran Lujo</button>
+            </p>
+            <h3>Resumen</h3>
+            <p>{{ personas }} personas en {{ habitaciones }} habitaciones durante {{ dias }} dias</p>
+            <p>Precio cada comida: {{precioComida}} €</p>
+            <p>Precio habitacion noche: {{ precioHabitacion }} €</p>
+            <h4>Subtotal Comidas: {{ subtotalComida }} €</h4>
+            <h4>Subtotal Alojamiento: {{ subtotalAlojamiento }} €</h4>
+            <h4>Subtotal Extras: {{ subtotalExtras }} €</h4>
+            
+            <h2 :class="clasePresupuesto">Subtotal Final: {{ presupuestoFinal }} €</h2>
+
+            <h4>Coste persona / día: {{personaDia}} €</h4>
+        </div>
+    </div>
+</body>
+</html>
